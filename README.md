@@ -7,7 +7,7 @@
 
 ### From the Chrome Web Store (Recommended)
 
-1. Visit the Brightspace Percentager extension page.
+1. Visit the [Brightspace Percentager extension page](https://chromewebstore.google.com/detail/brightspace-percentager/jjipgkhomehdhimjffjpghakjjkdijag?hl=en).
 
 2. Click the "Add to Chrome" button.
 
