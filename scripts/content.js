@@ -4,7 +4,8 @@ setTimeout(() => {
     let score, total = 0;
 
     scorePercentage = (score, total) => {
-        return ((score/total)*100).toFixed(1)
+        const percentage = (score / total) * 100;
+        return formattedPercentage = percentage % 1 !== 0 ? percentage.toFixed(1) : percentage.toFixed(0);
     }
 
     // find the contextBar that contains the learner details
