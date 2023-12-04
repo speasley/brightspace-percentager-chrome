@@ -41,7 +41,11 @@ setTimeout(() => {
             percentageElement.style.fontSize = "0.75em";
             percentageElement.style.textAlign = "right";
             percentageElement.style.width = "100px";
-            percentageElement.appendChild(document.createTextNode('-%'));
+            if (score > 0) {
+                percentageElement.innerHTML = `${scorePercentage(score, total)}%`;
+            } else {
+                percentageElement.appendChild(document.createTextNode('-%'));
+            }
             scoreElement.insertAdjacentElement("afterend", percentageElement);
 
         }
