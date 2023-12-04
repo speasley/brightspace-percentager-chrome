@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Brightspace Percentager",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Show the calculated grade percentage along with the Total Score in the assessment view.",
     "icons": {
         "16": "images/icon-16.png",
