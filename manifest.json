@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Brightspace Percentager",
-    "version": "0.1.1",
-    "description": "Show the calculated grade percentage along with the Total Score in the assessment view.",
+    "version": "0.2.0",
+    "description": "Add percentage tools to assessment grading: see the calculated percentage grade and adjust the overall grade by a percentage increment.",
     "icons": {
         "16": "images/icon-16.png",
         "32": "images/icon-32.png",
