@@ -100,8 +100,18 @@ setTimeout(() => {
         // build Percentager container
         const percContainer = document.createElement("div");
         percContainer.classList.add("brightspace-percentager");
-        percContainer.style.marginTop = "10px";
+        percContainer.style.marginTop = "5px";
         overallGradeContainer.insertAdjacentElement("afterend", percContainer);
+
+        // heading
+        const heading = document.createElement("h3");
+        heading.classList.add("d2l-label-text");
+        heading.classList.add("d2l-skeletize");
+        heading.style.fontSize = "0.75em";
+        heading.style.marginTop = "0";
+        heading.style.marginBottom = "0.3em";
+        heading.textContent = "Adjust grade";
+        percContainer.appendChild(heading);
 
         // build percentage display
         percDisplay = document.createElement("span");
