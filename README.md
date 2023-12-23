@@ -1,7 +1,7 @@
 # Brightspace Percentager Chrome Extension
 
 ## Description
-**Brightspace Percentager** displays the calculated grade percentage along with the learner's overall grade in the Assignment Evaluation of [D2L Brightspace Learning Management System](https://www.d2l.com/brightspace/).
+**Brightspace Percentager** adds percentage tools to assessment grading in the Assignment Evaluation of [D2L Brightspace Learning Management System](https://www.d2l.com/brightspace/). It displays the calculated percentage grade next to the point-based grade. It also adds the ability to adjust the overall grade by a percentage increment (useful for applying a late penalty).
 
 ## Installation
 
