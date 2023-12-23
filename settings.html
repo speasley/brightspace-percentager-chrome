@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brightspace Percentager</title>
+    <link href="./styles/settings.css" rel="stylesheet" />
+</head>
+<body class="brightspace-percentager-popup">
+    <header>
+        <h1>Brightspace Percentager</h1>
+        <h2>Add percentage tools to assessment grading: see the calculated percentage grade and adjust the overall grade by a percentage increment.</h2>
+    </header>
+    <main>
+        <section>
+            <h3>Options</h3>
+            <form id="brightspace-percentager-options-form">
+                <label for="percent">Percentage increment</label>
+                <input type="number" id="percent" min="1" max="100" value="10" name="percent" />%
+                <button id="saveButton">Save settings</button>
+                <small id="statusMessage"></small>
+            </form>
+        </section>
+    </main>
+    <script src="./scripts/settings.js"></script>
+</body>
+</html>

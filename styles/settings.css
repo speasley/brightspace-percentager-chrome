@@ -1,0 +1,61 @@
+/* options popup */
+.brightspace-percentager-popup {
+    color: #333;
+    font-size: 62.5%;
+    line-height: 1.4;
+    padding: 0.25rem 0.75rem 0;
+}
+
+.brightspace-percentager-popup h1 {
+    font-size: 0.9rem;
+    font-weight: normal;
+}
+
+.brightspace-percentager-popup h2,
+.brightspace-percentager-popup h3,
+.brightspace-percentager-popup h4 {
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.brightspace-percentager-popup h3 { font-weight: bold; }
+
+.brightspace-percentager-popup h4 {
+    margin: 0 0 0.25rem 0;
+}
+
+.brightspace-percentager-popup main {
+    font-size: 0.8rem;
+    width: 16rem;
+}
+
+.brightspace-percentager-popup main #brightspace-percentager-options-form #percent {
+    margin-top: 0.1rem;
+    margin-right: 0.2rem;
+    width: 6ch;
+}
+
+.brightspace-percentager-popup #saveButton {
+    cursor: pointer;
+    display: block;
+    margin-top: 1.5em;
+    width: 100%;
+}
+
+.brightspace-percentager-popup #statusMessage {
+    color: green;
+    display: block;
+    height: 12px;
+    margin-top: 3px;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-out {
+    animation-name: fadeOut;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards; /* keeps the element in the last animation frame */
+}
