@@ -129,45 +129,24 @@ setTimeout(() => {
         const percWrapper = document.createElement("div");
         percWrapper.classList.add("wrapper");
         percWrapper.style.display = "flex";
+        percWrapper.style.gap = "5px";
         percContainer.appendChild(percWrapper);
 
         // percDecrease
         percDecrease = document.createElement("button");
-        percDecrease.innerHTML = "&minus;";
+        percDecrease.innerHTML = `&minus; ${percAmount}%`;
         percDecrease.style.cursor = "pointer";
-        percDecrease.style.width = "4ch";
+        percDecrease.style.padding = "0.25em 1em";
+        percDecrease.style.whiteSpace = "nowrap";
         percDecrease.addEventListener("click", () => { decGrade(editableScore) });
         percWrapper.appendChild(percDecrease);
 
-        // input
-        percField = document.createElement("input");
-        percField.setAttribute("name", "percentager-percent");
-        percField.max = 100;
-        percField.min = 0;
-        percField.style.borderColor = "#666";
-        percField.style.borderRadius = "5px";
-        percField.style.borderStyle = "solid";
-        percField.style.borderWidth = "1px";
-        percField.style.fontFamily = "'Lato', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif";
-        percField.style.fontSize = "0.8em";
-        percField.style.marginRight = "1px";
-        percField.style.marginLeft = "1px";
-        percField.style.maxWidth = "6ch";
-        percField.style.maxWidth = "4.5ch";
-        percField.style.padding = "0.25em 0.225em";
-        percField.type = "number";
-        percField.value = percAmount;
-        percWrapper.appendChild(percField);
-
         // percIncrease
         percIncrease = document.createElement("button");
-        percIncrease.innerHTML = "&plus;";
-        percIncrease.style.borderColor = "#666";
-        percIncrease.style.borderRadius = "5px";
-        percIncrease.style.borderStyle = "solid";
-        percIncrease.style.borderWidth = "1px";
+        percIncrease.innerHTML = `&plus; ${percAmount}%`;
         percIncrease.style.cursor = "pointer";
-        percIncrease.style.width = "4ch";
+        percIncrease.style.padding = "0.25em 1em";
+        percIncrease.style.whiteSpace = "nowrap";
         percIncrease.addEventListener("click", () => { incGrade(editableScore) });
         percWrapper.appendChild(percIncrease);
 
