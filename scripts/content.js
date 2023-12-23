@@ -1,4 +1,4 @@
-let percAmount;
+let percAmount = 10; // set default
 
 chrome.storage.sync.get('userPercent', (data) => {
     if (data.userPercent) {
