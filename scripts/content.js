@@ -1,70 +1,121 @@
 setTimeout(() => {
 
-    let percentageElement, scoreElement = null;
-    let score, total = 0;
-
-    scorePercentage = (score, total) => {
-        const percentage = (score / total) * 100;
-        return formattedPercentage = percentage % 1 !== 0 ? percentage.toFixed(1) : percentage.toFixed(0);
-    }
-
-    // find the contextBar that contains the learner details
     const isD2l = document.querySelector("body.d2l-body");
 
-    // put on your DOM trunks, we're going for a swim
-    if (isD2l) {
-        const outerShadowHost = document.querySelector("body.d2l-body").querySelector("d2l-consistent-evaluation");
-        if(outerShadowHost) {
-            const outerShadowRoot = outerShadowHost.shadowRoot;
-            const secondaryShadowHost = outerShadowRoot.querySelector("d2l-consistent-evaluation-page");
-            const secondaryShadowRoot = secondaryShadowHost.shadowRoot;
-            const secondaryPrimary = secondaryShadowRoot.querySelector("d2l-template-primary-secondary");
-            const secondarySlot = secondaryPrimary.querySelector("div[slot='secondary']");
-            const constEvalRightPanelShadowHost = secondarySlot.querySelector("consistent-evaluation-right-panel");
-            const constEvalRightPanelShadowRoot = constEvalRightPanelShadowHost.shadowRoot;
-            const constEvalRightPanel = constEvalRightPanelShadowRoot.querySelector(".d2l-consistent-evaluation-right-panel");
-            const constEvalRightPanelEval = constEvalRightPanel.querySelector(".d2l-consistent-evaluation-right-panel-evaluation");
-            const constEvalRightPanelEvalShadowHost = constEvalRightPanelEval.querySelector("consistent-evaluation-right-panel-evaluation");
-            const constEvalRightPanelEvalShadowRoot = constEvalRightPanelEvalShadowHost.shadowRoot;
-            const constEvalRightPanelBlock = constEvalRightPanelEvalShadowRoot.querySelector("div > d2l-consistent-evaluation-right-panel-block:nth-child(2)");
-            const gradeResultShadowHost = constEvalRightPanelBlock.querySelector("d2l-consistent-evaluation-right-panel-grade-result");
-            const gradeResultShadowRoot = gradeResultShadowHost.shadowRoot;
-            scoreElement = gradeResultShadowRoot.querySelector("d2l-labs-d2l-grade-result-presentational");
+    let editableScore, overallGradeContainer, overallGradeInput, percDisplay,
+        secondaryShadowHost, score, total, totalScoreShadowHost;
 
-            // build the percentage element
-            score = scoreElement.getAttribute("scorenumerator");
-            total = scoreElement.getAttribute("scoredenominator");
+    const findElementInShadowDom = (root, target) => {
 
-            percentageElement = document.createElement("small");
-            percentageElement.classList.add("brightspace-percenter"); // add class to leverage to show we have modified the DOM
-            percentageElement.style.display = "inline-block";
-            percentageElement.style.fontSize = "0.75em";
-            percentageElement.style.textAlign = "right";
-            percentageElement.style.width = "100px";
-            if (score > 0) {
-                percentageElement.innerHTML = `${scorePercentage(score, total)}%`;
-            } else {
-                percentageElement.appendChild(document.createTextNode('-%'));
-            }
-            scoreElement.insertAdjacentElement("afterend", percentageElement);
+        let matchesTarget = root?.classList?.contains(target);
 
+        if (matchesTarget) {
+            return root;
         }
 
-        // watch the a change to the score
-        if (scoreElement) {
-            // Create a new Mutation Observer and specify a callback function
+        if (root?.shadowRoot) {
+            const foundInShadow = findElementInShadowDom(root.shadowRoot, target);
+            if (foundInShadow) {
+                return foundInShadow;
+            }
+        }
+
+        if (root?.children) {
+            for (const child of root.children) {
+                const foundInChildren = findElementInShadowDom(child, target);
+                if (foundInChildren) {
+                    return foundInChildren;
+                }
+            }
+        }
+
+        return null;
+    };
+
+    const scorePercentage = (score, total) => {
+        const percentage = (score / total) * 100;
+        return percentage % 1 !== 0 ? percentage.toFixed(1) : percentage.toFixed(0);
+    }
+
+    const updatePercentDisplay = (tar, src) => {
+        score = (src).getAttribute("value");
+        total = ((src).getAttribute("unit")).replace("/ ", "");
+        (tar).textContent = score > 0 ? `${scorePercentage(score, total)}%` : `-%`;
+    }
+
+    if (isD2l) {
+
+        const rootElement = document.querySelector("body.d2l-body");
+        const outerShadowHost = document.querySelector("body.d2l-body").querySelector("d2l-consistent-evaluation");
+
+        if(outerShadowHost) {
+            const outerShadowRoot = outerShadowHost.shadowRoot;
+            secondaryShadowHost = outerShadowRoot.querySelector("d2l-consistent-evaluation-page");
+        }
+
+        /* ------------------------------------------------------------- */
+        /* percentage display                                            */
+        /* ------------------------------------------------------------- */
+
+        // find top Total Score container
+        if (findElementInShadowDom(rootElement, "out-of-score-container")) {
+            totalScoreShadowHost = findElementInShadowDom(rootElement, "out-of-score-container");
+            editableScore = totalScoreShadowHost.querySelector("d2l-rubric-editable-score");
+            editableScore = editableScore.shadowRoot;
+            editableScore = editableScore.querySelector(".editable-container");
+            editableScore = editableScore.querySelector("#input-container")
+            editableScore = editableScore.querySelector(".total-score-container");
+            editableScore = editableScore.querySelector(".editing-component input");
+        }
+
+        // find Overall Grade container 
+        if (findElementInShadowDom(rootElement, "d2l-grade-result-presentational-container")) {
+            overallGradeContainer = findElementInShadowDom(rootElement, "d2l-grade-result-presentational-container");
+        }
+
+        // find Overall Grade input
+        if (findElementInShadowDom(secondaryShadowHost, "d2l-grade-result-numeric-score-score")) {
+            overallGradeInput = findElementInShadowDom(secondaryShadowHost, "d2l-grade-result-numeric-score-score");
+            overallGradeInput = overallGradeInput.querySelector("d2l-form");
+            overallGradeInput = overallGradeInput.querySelector("d2l-input-number");
+        }
+
+        // build Percentager container
+        const percContainer = document.createElement("div");
+        percContainer.classList.add("brightspace-percentager");
+        percContainer.style.marginTop = "10px";
+        overallGradeContainer.insertAdjacentElement("afterend", percContainer);
+
+        // build percentage display
+        percDisplay = document.createElement("span");
+        percDisplay.style.cursor = "default";
+        percDisplay.style.fontSize = "0.85em";
+        percDisplay.style.margin = "0 0.5rem";
+        updatePercentDisplay(percDisplay, overallGradeInput);
+        overallGradeContainer.insertBefore(percDisplay, overallGradeContainer.children[1]); // after first child
+
+        /* ------------------------------------------------------------- */
+        /* percentage bumper                                             */
+        /* ------------------------------------------------------------- */
+
+        let percAmount, pointsAmount;
+        percAmount = 10;
+        pointsAmount = total/percAmount;
+
+        /* ------------------------------------------------------------- */
+        /* watch elements for changes                                    */
+        /* ------------------------------------------------------------- */
+
+        if (overallGradeInput) {
             const observer = new MutationObserver(mutations => {
                 mutations.forEach(mutation => {
-                    // Check if the attribute we're interested in has changed
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'scorenumerator') {
-                        const newScore = scoreElement.getAttribute('scorenumerator');
-                        percentageElement.innerHTML = `${scorePercentage(newScore, total)}%`;
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+                        updatePercentDisplay(percDisplay, overallGradeInput);
                     }
                 });
             });
         
-            // Configure the Mutation Observer to watch for attribute changes
-            observer.observe(scoreElement, { attributes: true });
+            observer.observe(overallGradeInput, { attributes: true });
         }
 
     }
