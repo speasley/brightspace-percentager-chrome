@@ -4,6 +4,15 @@ setTimeout(() => {
 
     let editableScore, overallGradeContainer, overallGradeInput, percDisplay,
         secondaryShadowHost, score, total, totalScoreShadowHost;
+    let percAmount = 10; // bump increment
+
+    const decGrade = (el) => {
+        const pointsAmount = Number(total/percAmount);
+        const result = Number((el).value) - pointsAmount;
+        (el).value = Math.max(0, result);
+        (el).dispatchEvent(new Event("change", { bubbles: true }));
+        (el).dispatchEvent(new Event("blur"));
+    }
 
     const findElementInShadowDom = (root, target) => {
 
@@ -32,14 +41,22 @@ setTimeout(() => {
         return null;
     };
 
+    const incGrade = (el) => {
+        const pointsAmount = Number(total/percAmount);
+        const result = Number((el).value) + pointsAmount;
+        (el).value = Math.min(total, result);
+        (el).dispatchEvent(new Event("change", { bubbles: true }));
+        (el).dispatchEvent(new Event("blur"));
+    }
+
     const scorePercentage = (score, total) => {
         const percentage = (score / total) * 100;
         return percentage % 1 !== 0 ? percentage.toFixed(1) : percentage.toFixed(0);
     }
 
     const updatePercentDisplay = (tar, src) => {
-        score = (src).getAttribute("value");
-        total = ((src).getAttribute("unit")).replace("/ ", "");
+        score = Number((src).getAttribute("value"));
+        total = Number(((src).getAttribute("unit")).replace("/ ", ""));
         (tar).textContent = score > 0 ? `${scorePercentage(score, total)}%` : `-%`;
     }
 
@@ -98,9 +115,51 @@ setTimeout(() => {
         /* percentage bumper                                             */
         /* ------------------------------------------------------------- */
 
-        let percAmount, pointsAmount;
-        percAmount = 10;
-        pointsAmount = total/percAmount;
+        // wrapper
+        const percWrapper = document.createElement("div");
+        percWrapper.classList.add("wrapper");
+        percWrapper.style.display = "flex";
+        percContainer.appendChild(percWrapper);
+
+        // percDecrease
+        percDecrease = document.createElement("button");
+        percDecrease.innerHTML = "&minus;";
+        percDecrease.style.cursor = "pointer";
+        percDecrease.style.width = "4ch";
+        percDecrease.addEventListener("click", () => { decGrade(editableScore) });
+        percWrapper.appendChild(percDecrease);
+
+        // input
+        percField = document.createElement("input");
+        percField.setAttribute("name", "percentager-percent");
+        percField.max = 100;
+        percField.min = 0;
+        percField.style.borderColor = "#666";
+        percField.style.borderRadius = "5px";
+        percField.style.borderStyle = "solid";
+        percField.style.borderWidth = "1px";
+        percField.style.fontFamily = "'Lato', 'Lucida Sans Unicode', 'Lucida Grande', sans-serif";
+        percField.style.fontSize = "0.8em";
+        percField.style.marginRight = "1px";
+        percField.style.marginLeft = "1px";
+        percField.style.maxWidth = "6ch";
+        percField.style.maxWidth = "4.5ch";
+        percField.style.padding = "0.25em 0.225em";
+        percField.type = "number";
+        percField.value = percAmount;
+        percWrapper.appendChild(percField);
+
+        // percIncrease
+        percIncrease = document.createElement("button");
+        percIncrease.innerHTML = "&plus;";
+        percIncrease.style.borderColor = "#666";
+        percIncrease.style.borderRadius = "5px";
+        percIncrease.style.borderStyle = "solid";
+        percIncrease.style.borderWidth = "1px";
+        percIncrease.style.cursor = "pointer";
+        percIncrease.style.width = "4ch";
+        percIncrease.addEventListener("click", () => { incGrade(editableScore) });
+        percWrapper.appendChild(percIncrease);
 
         /* ------------------------------------------------------------- */
         /* watch elements for changes                                    */
