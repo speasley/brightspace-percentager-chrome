@@ -125,7 +125,7 @@ setTimeout(() => {
         heading.style.fontSize = "0.75em";
         heading.style.marginTop = "0";
         heading.style.marginBottom = "0.3em";
-        heading.textContent = "Adjust grade";
+        heading.textContent = "Adjust Grade";
         percContainer.appendChild(heading);
 
         // build percentage display
