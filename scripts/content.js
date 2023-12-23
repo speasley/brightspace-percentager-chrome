@@ -1,13 +1,28 @@
+let percAmount;
+
+chrome.storage.sync.get('userPercent', (data) => {
+    if (data.userPercent) {
+        percAmount = data.userPercent || 10;
+    }
+});
+
 setTimeout(() => {
 
     const isD2l = document.querySelector("body.d2l-body");
 
     let editableScore, overallGradeContainer, overallGradeInput, percDisplay,
         secondaryShadowHost, score, total, totalScoreShadowHost;
-    let percAmount = 10; // bump increment
+
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        if (request.action === "updateDOM") {
+            percAmount = request.percAmount;
+            percDecrease.innerHTML = `&minus; ${percAmount}%`;
+            percIncrease.innerHTML = `&plus; ${percAmount}%`;
+        }
+    });
 
     const decGrade = (el) => {
-        const pointsAmount = Number(total/percAmount);
+        const pointsAmount = total * (percAmount / 100);
         const result = Number((el).value) - pointsAmount;
         (el).value = Math.max(0, result);
         (el).dispatchEvent(new Event("change", { bubbles: true }));
@@ -42,7 +57,7 @@ setTimeout(() => {
     };
 
     const incGrade = (el) => {
-        const pointsAmount = Number(total/percAmount);
+        const pointsAmount = total * (percAmount / 100);
         const result = Number((el).value) + pointsAmount;
         (el).value = Math.min(total, result);
         (el).dispatchEvent(new Event("change", { bubbles: true }));
