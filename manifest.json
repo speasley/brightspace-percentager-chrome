@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Brightspace Percentager",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Add percentage tools to assessment grading: see calculated percentage grade and adjust overall grade by a percentage increment.",
     "icons": {
         "16": "images/icon-16.png",
