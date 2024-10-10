@@ -112,73 +112,75 @@ setTimeout(() => {
             overallGradeInput = overallGradeInput.querySelector("d2l-input-number");
         }
 
-        // build Percentager container
-        const percContainer = document.createElement("div");
-        percContainer.classList.add("brightspace-percentager");
-        percContainer.style.marginTop = "5px";
-        overallGradeContainer.insertAdjacentElement("afterend", percContainer);
+        if(overallGradeContainer) {
+            // build Percentager container
+            const percContainer = document.createElement("div");
+            percContainer.classList.add("brightspace-percentager");
+            percContainer.style.marginTop = "5px";
+            overallGradeContainer.insertAdjacentElement("afterend", percContainer);
 
-        // heading
-        const heading = document.createElement("h3");
-        heading.classList.add("d2l-label-text");
-        heading.classList.add("d2l-skeletize");
-        heading.style.fontSize = "0.75em";
-        heading.style.marginTop = "0";
-        heading.style.marginBottom = "0.3em";
-        heading.textContent = "Adjust Grade";
-        percContainer.appendChild(heading);
+            // heading
+            const heading = document.createElement("h3");
+            heading.classList.add("d2l-label-text");
+            heading.classList.add("d2l-skeletize");
+            heading.style.fontSize = "0.75em";
+            heading.style.marginTop = "0";
+            heading.style.marginBottom = "0.3em";
+            heading.textContent = "Adjust Grade";
+            percContainer.appendChild(heading);
 
-        // build percentage display
-        percDisplay = document.createElement("span");
-        percDisplay.style.cursor = "default";
-        percDisplay.style.fontSize = "0.85em";
-        percDisplay.style.margin = "0 0.5rem";
-        updatePercentDisplay(percDisplay, overallGradeInput);
-        overallGradeContainer.insertBefore(percDisplay, overallGradeContainer.children[1]); // after first child
+            // build percentage display
+            percDisplay = document.createElement("span");
+            percDisplay.style.cursor = "default";
+            percDisplay.style.fontSize = "0.85em";
+            percDisplay.style.margin = "0 0.5rem";
+            updatePercentDisplay(percDisplay, overallGradeInput);
+            overallGradeContainer.insertBefore(percDisplay, overallGradeContainer.children[1]); // after first child
 
-        /* ------------------------------------------------------------- */
-        /* percentage bumper                                             */
-        /* ------------------------------------------------------------- */
+            /* ------------------------------------------------------------- */
+            /* percentage bumper                                             */
+            /* ------------------------------------------------------------- */
 
-        // wrapper
-        const percWrapper = document.createElement("div");
-        percWrapper.classList.add("wrapper");
-        percWrapper.style.display = "flex";
-        percWrapper.style.gap = "5px";
-        percContainer.appendChild(percWrapper);
+            // wrapper
+            const percWrapper = document.createElement("div");
+            percWrapper.classList.add("wrapper");
+            percWrapper.style.display = "flex";
+            percWrapper.style.gap = "5px";
+            percContainer.appendChild(percWrapper);
 
-        // percDecrease
-        percDecrease = document.createElement("button");
-        percDecrease.innerHTML = `&minus; ${percAmount}%`;
-        percDecrease.style.cursor = "pointer";
-        percDecrease.style.padding = "0.25em 1em";
-        percDecrease.style.whiteSpace = "nowrap";
-        percDecrease.addEventListener("click", () => { decGrade(editableScore) });
-        percWrapper.appendChild(percDecrease);
+            // percDecrease
+            percDecrease = document.createElement("button");
+            percDecrease.innerHTML = `&minus; ${percAmount}%`;
+            percDecrease.style.cursor = "pointer";
+            percDecrease.style.padding = "0.25em 1em";
+            percDecrease.style.whiteSpace = "nowrap";
+            percDecrease.addEventListener("click", () => { decGrade(editableScore) });
+            percWrapper.appendChild(percDecrease);
 
-        // percIncrease
-        percIncrease = document.createElement("button");
-        percIncrease.innerHTML = `&plus; ${percAmount}%`;
-        percIncrease.style.cursor = "pointer";
-        percIncrease.style.padding = "0.25em 1em";
-        percIncrease.style.whiteSpace = "nowrap";
-        percIncrease.addEventListener("click", () => { incGrade(editableScore) });
-        percWrapper.appendChild(percIncrease);
+            // percIncrease
+            percIncrease = document.createElement("button");
+            percIncrease.innerHTML = `&plus; ${percAmount}%`;
+            percIncrease.style.cursor = "pointer";
+            percIncrease.style.padding = "0.25em 1em";
+            percIncrease.style.whiteSpace = "nowrap";
+            percIncrease.addEventListener("click", () => { incGrade(editableScore) });
+            percWrapper.appendChild(percIncrease);
 
-        /* ------------------------------------------------------------- */
-        /* watch elements for changes                                    */
-        /* ------------------------------------------------------------- */
+            /* ------------------------------------------------------------- */
+            /* watch elements for changes                                    */
+            /* ------------------------------------------------------------- */
 
-        if (overallGradeInput) {
-            const observer = new MutationObserver(mutations => {
-                mutations.forEach(mutation => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-                        updatePercentDisplay(percDisplay, overallGradeInput);
-                    }
+            if (overallGradeInput) {
+                const observer = new MutationObserver(mutations => {
+                    mutations.forEach(mutation => {
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+                            updatePercentDisplay(percDisplay, overallGradeInput);
+                        }
+                    });
                 });
-            });
-        
-            observer.observe(overallGradeInput, { attributes: true });
+            
+                observer.observe(overallGradeInput, { attributes: true });
+            }
         }
 
     }
