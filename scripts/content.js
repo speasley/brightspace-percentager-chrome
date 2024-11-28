@@ -101,8 +101,8 @@ setTimeout(() => {
         }
 
         // find Overall Grade container 
-        if (findElementInShadowDom(rootElement, "d2l-grade-result-presentational-container")) {
-            overallGradeContainer = findElementInShadowDom(rootElement, "d2l-grade-result-presentational-container");
+        if (findElementInShadowDom(rootElement, "d2l-grade-result-presentational-score-container")) {
+            overallGradeContainer = findElementInShadowDom(rootElement, "d2l-grade-result-presentational-score-container");
         }
 
         // find Overall Grade input
@@ -131,11 +131,14 @@ setTimeout(() => {
 
             // build percentage display
             percDisplay = document.createElement("span");
+            percDisplay.classList.add("brightspace-percentager");
             percDisplay.style.cursor = "default";
             percDisplay.style.fontSize = "0.85em";
-            percDisplay.style.margin = "0 0.5rem";
+            percDisplay.style.display = "flex";
+            percDisplay.style.alignItems = "center";
+            percDisplay.style.marginLeft = "0.5rem";
             updatePercentDisplay(percDisplay, overallGradeInput);
-            overallGradeContainer.insertBefore(percDisplay, overallGradeContainer.children[1]); // after first child
+            overallGradeContainer.appendChild(percDisplay);
 
             /* ------------------------------------------------------------- */
             /* percentage bumper                                             */
